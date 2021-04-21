@@ -1,0 +1,20 @@
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  background-color: #eee;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.options-section {
+  flex-grow: 1;
+  max-width: 640px;
+  box-shadow: 0 0 16px 4px rgba(0,0,0,0.75);
+
+  & > li {
+    padding: 1em;
+  }
+}

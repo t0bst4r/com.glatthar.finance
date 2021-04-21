@@ -1,1 +1,5 @@
-Hi
+<div class="options-section list-group">
+  <a href="#" (click)="createNewProject()" class="list-group-item">Create new project</a>
+  <a href="#" (click)="proceedProject()" class="list-group-item" *ngIf="hasData">Proceed current project</a>
+  <a href="#" (click)="loadProject()" class="list-group-item">Load project from file</a>
+</div>
