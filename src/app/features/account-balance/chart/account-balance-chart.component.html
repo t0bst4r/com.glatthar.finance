@@ -1,0 +1,17 @@
+<div (detectResize)="resizeDetected()" *ngIf="datasets && datasets.length; else noData">
+  <canvas baseChart
+          [datasets]="datasets"
+          [labels]="labels"
+          [options]="options"
+          [colors]="colors"
+          [legend]="true"
+          chartType="line"
+  >
+  </canvas>
+</div>
+
+<ng-template #noData>
+  <div class="no-data">
+    <span>There is no data available</span>
+  </div>
+</ng-template>

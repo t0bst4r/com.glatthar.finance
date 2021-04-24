@@ -1,0 +1,22 @@
+<div *ngIf="balances; else noData">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Account</th>
+      <th *ngFor="let date of timeline">{{date | date:'MM/YY'}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let account of accounts">
+      <td>{{account.name}}</td>
+      <td *ngFor="let value of balances[account.id]">{{value | number}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noData>
+  <div class="no-data">
+    <span>There is no data available</span>
+  </div>
+</ng-template>

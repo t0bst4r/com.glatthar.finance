@@ -1,0 +1,41 @@
+<div class="content" *ngIf="currentProject$ | async as currentProject; else notExisting">
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" [routerLink]="['']">
+          <img alt="Logo" src="/assets/logo.svg"/>
+        </a>
+        <button type="button" class="btn btn-default navbar-btn" (click)="createAccount(currentProject.id)">Create
+          Account
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="options-section list-group elevated-z4" *ngIf="accounts$ | async as accounts">
+
+    <h2>{{ currentProject.name }}</h2>
+
+    <account-balance-chart
+      [timeline]="timeline"
+      [accounts]="accounts$ | async"
+      [transactions]="transactions$ | async"
+    ></account-balance-chart>
+
+    <account-balance-table
+      [timeline]="timeline"
+      [accounts]="accounts$ | async"
+      [transactions]="transactions$ | async"
+    ></account-balance-table>
+    <ul *ngIf="accounts$ | async as accounts">
+      <li *ngFor="let account of accounts">{{account.name}} <a href="#" (click)="createTransaction(account.id, $event)">Create</a>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+<ng-template #notExisting>
+  Not Existing
+</ng-template>

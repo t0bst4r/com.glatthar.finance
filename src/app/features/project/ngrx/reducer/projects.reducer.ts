@@ -1,5 +1,5 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import {assign, omit} from 'lodash';
+import {assign, omit} from 'lodash-es';
 import {Project} from '../../model/project';
 import {createOrUpdateProject} from '../action/create-or-update-project.action';
 import {deleteProject} from '../action/delete-project.action';

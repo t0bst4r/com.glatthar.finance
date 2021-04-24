@@ -1,5 +1,5 @@
 <div class="logo">
-  <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="Logo" />
+  <img src="/assets/logo.svg" alt="Logo" />
 </div>
 
 <div class="options-section list-group elevated-z4">
@@ -10,8 +10,7 @@
   <a href="#" (click)="importProject($event)" class="list-group-item">Load project from file</a>
   <a href="#" class="list-group-item"
      *ngFor="let project of (allProjects$ | async)"
-     [ngClass]="{active: project.id == (currentProject$ | async)}"
-     (click)="proceedProject($event, project.id)">
+     (click)="proceedProject(project.id, $event)">
     Proceed with <strong>{{project.name}}</strong>
   </a>
 </div>

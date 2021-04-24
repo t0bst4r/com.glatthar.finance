@@ -5,6 +5,7 @@ import {selectUsedUuids} from '../ngrx/selector/uuid.selectors';
 import {map, take, tap} from 'rxjs/operators';
 import {v4 as uuidV4} from 'uuid';
 import {useUuid} from '../ngrx/action/use-uuid.action';
+import {releaseUuid} from '../ngrx/action/release-uuid.action';
 
 @Injectable()
 export class UuidService {
@@ -17,7 +18,7 @@ export class UuidService {
     return uuid;
   }
 
-  constructor(private store$: Store) {
+  constructor(private readonly store$: Store) {
   }
 
   public getUsedUuids(): Observable<Array<string>> {
@@ -30,6 +31,13 @@ export class UuidService {
       map(uuids => UuidService.generateNewUuid(uuids)),
       tap(uuid => this.store$.dispatch(useUuid({uuid})))
     );
+  }
+
+  public release(uuid: string): Promise<void> {
+    return new Promise(resolve => {
+      this.store$.dispatch(releaseUuid({uuid}));
+      resolve();
+    });
   }
 
 }

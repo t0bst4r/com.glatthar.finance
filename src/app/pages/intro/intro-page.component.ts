@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ProjectService} from '../../features/project/service/project.service';
+import {Router} from '@angular/router';
 
 @Component({
   templateUrl: 'intro-page.component.html',
@@ -7,27 +8,28 @@ import {ProjectService} from '../../features/project/service/project.service';
 })
 export class IntroPageComponent implements OnInit {
 
-  public currentProject$ = this.projectService.getCurrentProject();
-  public allProjects$ = this.projectService.getAllProjects();
+  public readonly allProjects$ = this.projectService.getAllProjects();
 
-  constructor(private projectService: ProjectService) {
+  constructor(private readonly projectService: ProjectService,
+              private readonly router: Router) {
   }
 
   public ngOnInit(): void {
 
   }
 
-  public createNewProject($event?: MouseEvent): void {
+  public createNewProject($event?: MouseEvent): Promise<boolean> {
     $event?.preventDefault();
-    this.projectService.createProject({name: 'dummy'}, true);
+    return this.projectService.createProject({name: 'dummy'})
+      .then(id => this.proceedProject(id));
   }
 
-  public proceedProject($event: MouseEvent, projectId: string): void {
+  public proceedProject(projectId: string, $event?: MouseEvent): Promise<boolean> {
     $event?.preventDefault();
-    this.projectService.selectProject(projectId);
+    return this.router.navigate(['project', projectId]);
   }
 
-  public importProject($event: MouseEvent): void {
+  public importProject($event?: MouseEvent): void {
     $event?.preventDefault();
   }
 }
