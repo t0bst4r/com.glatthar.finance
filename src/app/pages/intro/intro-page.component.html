@@ -1,5 +1,17 @@
-<div class="options-section list-group">
-  <a href="#" (click)="createNewProject()" class="list-group-item">Create new project</a>
-  <a href="#" (click)="proceedProject()" class="list-group-item" *ngIf="hasData">Proceed current project</a>
-  <a href="#" (click)="loadProject()" class="list-group-item">Load project from file</a>
+<div class="logo">
+  <img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="Logo" />
+</div>
+
+<div class="options-section list-group elevated-z4">
+  <a href="#" class="list-group-item"
+     (click)="createNewProject($event)">
+    Create new project
+  </a>
+  <a href="#" (click)="importProject($event)" class="list-group-item">Load project from file</a>
+  <a href="#" class="list-group-item"
+     *ngFor="let project of (allProjects$ | async)"
+     [ngClass]="{active: project.id == (currentProject$ | async)}"
+     (click)="proceedProject($event, project.id)">
+    Proceed with <strong>{{project.name}}</strong>
+  </a>
 </div>

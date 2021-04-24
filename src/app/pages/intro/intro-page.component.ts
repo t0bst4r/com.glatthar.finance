@@ -6,6 +6,10 @@ import {ProjectService} from '../../features/project/service/project.service';
   styleUrls: ['intro-page.component.scss']
 })
 export class IntroPageComponent implements OnInit {
+
+  public currentProject$ = this.projectService.getCurrentProject();
+  public allProjects$ = this.projectService.getAllProjects();
+
   constructor(private projectService: ProjectService) {
   }
 
@@ -13,12 +17,17 @@ export class IntroPageComponent implements OnInit {
 
   }
 
-  public createNewProject(): void {
+  public createNewProject($event?: MouseEvent): void {
+    $event?.preventDefault();
+    this.projectService.createProject({name: 'dummy'}, true);
   }
 
-  public proceedProject(): void {
+  public proceedProject($event: MouseEvent, projectId: string): void {
+    $event?.preventDefault();
+    this.projectService.selectProject(projectId);
   }
 
-  public loadProject(): void {
+  public importProject($event: MouseEvent): void {
+    $event?.preventDefault();
   }
 }

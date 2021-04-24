@@ -1,2 +1,6 @@
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+.elevated-z4 {
+  box-shadow: 0 0 16px 4px rgba(0,0,0,0.75);
+}

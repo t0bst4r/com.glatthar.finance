@@ -2,11 +2,12 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Project} from '../model/project';
 import {Store} from '@ngrx/store';
-import {selectCurrentProject, selectProjectList} from '../ngrx/selector/project.selector';
+import {selectCurrentProjectId, selectProjectList} from '../ngrx/selector/project.selector';
 import {UuidService} from '../../uuid/service/uuid.service';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {assign} from 'lodash';
 import {createOrUpdateProject} from '../ngrx/action/create-or-update-project.action';
+import {selectProject} from '../ngrx/action/select-project.action';
 
 @Injectable()
 export class ProjectService {
@@ -15,22 +16,30 @@ export class ProjectService {
               private store$: Store) {
   }
 
-  public getCurrentProject(): Observable<Project | undefined> {
-    return this.store$.select(selectCurrentProject);
+  public getCurrentProject(): Observable<string | undefined> {
+    return this.store$.select(selectCurrentProjectId);
   }
 
   public getAllProjects(): Observable<Array<Project>> {
     return this.store$.select(selectProjectList);
   }
 
-  public createProject(newProject: Omit<Project, 'id'>): void {
+  public createProject(newProject: Omit<Project, 'id'>, autoSelectProject: boolean = false): void {
     this.uuidService.generate().pipe(
-      map(uuid => assign({id: uuid}, newProject))
-    ).subscribe(project => this.updateProject(project));
+      map(id => assign({id}, newProject))
+    ).subscribe(project => {
+      this.updateProject(project);
+      if (autoSelectProject) {
+        this.selectProject(project.id);
+      }
+    });
   }
 
   public updateProject(project: Project): void {
     this.store$.dispatch(createOrUpdateProject({project}));
   }
 
+  public selectProject(id: string): void {
+    this.store$.dispatch(selectProject({id}));
+  }
 }
